@@ -90,8 +90,9 @@ def initialize() {
     subscribe(myDevice, "color", switchColorHandler)
     subscribe(myDevice, "pair", pairHandler)
     subscribe(myDevice, "unpair", unpairHandler)
+    subscribe(myDevice, "nightmode", nightHandler)
     subscribe(myDevice, "whiten", whitenHandler)
-    
+ 
     log.debug("Subscribed")
     //subscribeToCommand(myDevice, "refresh", switchRefreshHandler)
     
@@ -122,6 +123,14 @@ def unpairHandler(evt) {
 	//if(parent.parent.settings.isDebug) { log.debug "unpaired! ${settings.code} / ${evt.device.name}" }
     httpCall(body, parent.settings.ipAddress, settings.code, evt.device)
 
+}
+
+def nightHandler(evt) {
+	def body = ["command": "night_mode"]
+     //if(parent.parent.settings.isDebug) { log.debug "nightmode! ${settings.code} / ${evt.device.name}" }
+     httpCall(body, parent.settings.ipAddress, settings.code, evt.device)
+     
+     log.debug("httpcall night mode")
 }
 
 def whitenHandler(evt) {
