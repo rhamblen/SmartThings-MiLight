@@ -2,7 +2,7 @@
  *  MiLight / EasyBulb / LimitlessLED Light Controller
  *
  *  Copyright 2017  Rusty Phillips rusty dot phillips at gmail dot com
- *
+ *  2018 update for nightmode
  *  Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
  *  in compliance with the License. You may obtain a copy of the License at:
  *
@@ -27,6 +27,7 @@ metadata {
         command "pair"
         command "unpair"
         command "whiten"
+	command "nightmode"
 	}
     
     preferences {       
@@ -68,8 +69,13 @@ metadata {
            state "default", label:"White", defaultState: true, action: "whiten", icon: "st.switches.switch.off"
         }
 
+        standardTile("night", "device.switch", width: 2, height: 2, canChangeIcon: true) {
+           state "default", label:"Night", defaultState: true, action: "nightmode", icon: "st.switches.switch.off"
+        }
+
+
 		main(["switch"])
-		details(["switch","levelSliderControl", "rgbSelector", "refresh", "pair", "unpair", "white"])
+		details(["switch","levelSliderControl", "rgbSelector", "refresh", "pair", "unpair", "white", "night"])
 	} 
 }
 
@@ -115,6 +121,12 @@ def unpair() {
 
 def whiten() {
    sendEvent(name: "whiten", value: java.util.UUID.randomUUID().toString())    
+   log.debug("Sent whiten")
+}
+
+def nightmode() {
+   sendEvent(name: "nightmode", value: java.util.UUID.randomUUID().toString())
+   log.debug("Sent nightmode")
 }
 
 def unknown() {
